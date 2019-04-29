@@ -74,7 +74,7 @@ var ImageViewer = /** @class */ (function (_super) {
             if (offsetX === void 0) { offsetX = 0; }
             _this.positionXNumber = _this.standardPositionX + offsetX;
             _this.positionX.setValue(_this.positionXNumber);
-            var offsetXRTL = !I18nManager.isRTL ? offsetX : -offsetX;
+            var offsetXRTL = I18nManager.isRTL ? offsetX : -offsetX;
             if (offsetXRTL < 0) {
                 if (_this.state.currentShowIndex || 0 < _this.props.imageUrls.length - 1) {
                     _this.loadImage((_this.state.currentShowIndex || 0) + 1);
@@ -91,11 +91,11 @@ var ImageViewer = /** @class */ (function (_super) {
          */
         _this.handleResponderRelease = function (vx) {
             if (vx === void 0) { vx = 0; }
-            var vxRTL = I18nManager.isRTL ? -vx : vx;
-            var isLeftMove = I18nManager.isRTL
+            var vxRTL = !I18nManager.isRTL ? -vx : vx;
+            var isLeftMove = !I18nManager.isRTL
                 ? _this.positionXNumber - _this.standardPositionX < -(_this.props.flipThreshold || 0)
                 : _this.positionXNumber - _this.standardPositionX > (_this.props.flipThreshold || 0);
-            var isRightMove = I18nManager.isRTL
+            var isRightMove = !I18nManager.isRTL
                 ? _this.positionXNumber - _this.standardPositionX > (_this.props.flipThreshold || 0)
                 : _this.positionXNumber - _this.standardPositionX < -(_this.props.flipThreshold || 0);
             if (vxRTL > 0.7) {
@@ -139,7 +139,7 @@ var ImageViewer = /** @class */ (function (_super) {
                 _this.resetPosition.call(_this);
                 return;
             }
-            _this.positionXNumber = !I18nManager.isRTL
+            _this.positionXNumber = I18nManager.isRTL
                 ? _this.standardPositionX + _this.width
                 : _this.standardPositionX - _this.width;
             _this.standardPositionX = _this.positionXNumber;
@@ -165,7 +165,7 @@ var ImageViewer = /** @class */ (function (_super) {
                 _this.resetPosition.call(_this);
                 return;
             }
-            _this.positionXNumber = !I18nManager.isRTL
+            _this.positionXNumber = I18nManager.isRTL
                 ? _this.standardPositionX - _this.width
                 : _this.standardPositionX + _this.width;
             _this.standardPositionX = _this.positionXNumber;
@@ -315,7 +315,7 @@ var ImageViewer = /** @class */ (function (_super) {
      */
     ImageViewer.prototype.jumpToCurrentImage = function () {
         // 跳到当前图的位置
-        this.positionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
+        this.positionXNumber = this.width * (this.state.currentShowIndex || 0) * (!I18nManager.isRTL ? 1 : -1);
         this.standardPositionX = this.positionXNumber;
         this.positionX.setValue(this.positionXNumber);
     };
